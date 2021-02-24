@@ -7,7 +7,7 @@ import numpy as np
 import sys
 import importlib.util
 import time
-
+import requests
 # Define and parse input arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('--modeldir', help='Folder the .tflite file is located in',
@@ -188,6 +188,8 @@ while(video.isOpened()):
                         lime_found = time.time() - start_total_time
                         try:
                             lime_count += 1
+                            # connect webserver's api and add lime data
+                            requests.post(url="http://128.199.230.219/api/push", params={"item_name": "lime", "qty": 1})
                             lime_diameter = ((xmax - xmin) + (ymax - ymin))  / (2 * pixel_per_metric)
                             lime_sizes.append(lime_diameter)
                             found_list.append(lime_found)
@@ -201,6 +203,8 @@ while(video.isOpened()):
 
                     elif(int(classes[i])+1 == 2):
                         marker_count += 1
+                        # connect webserver's api and add marker data
+                        requests.post(url="http://128.199.230.219/api/push", params={"item_name": "marker", "qty": 1})
                         total_marker_width += ((xmax - xmin) + (ymax - ymin)) / 2
                         
                         pixel_per_metric = (total_marker_width / marker_count) / MARKER_DIAMETER
