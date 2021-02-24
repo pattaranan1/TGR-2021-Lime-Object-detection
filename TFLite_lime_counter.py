@@ -146,6 +146,7 @@ while(video.isOpened()):
         start_time = time.time()
         interpreter.set_tensor(input_details[0]['index'],input_data)
         interpreter.invoke()
+        elapsed_time.append(time.time() - start_time) 
 
         # Retrieve detection results
         boxes = interpreter.get_tensor(output_details[0]['index'])[0] # Bounding box coordinates of detected objects

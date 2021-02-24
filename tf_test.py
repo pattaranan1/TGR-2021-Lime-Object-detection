@@ -72,24 +72,23 @@ with open(PATH_TO_LABELS, 'r') as f:
 if labels[0] == '???':
     del(labels[0])
 
-# Load the Tensorflow Lite model.
-# If using Edge TPU, use special load_delegate argument
-if use_TPU:
-    interpreter = Interpreter(model_path=PATH_TO_CKPT,
-                              experimental_delegates=[load_delegate('libedgetpu.so.1.0')], num_threads=4)
-    print(PATH_TO_CKPT)
-else:
-    interpreter = Interpreter(model_path=PATH_TO_CKPT, num_threads=4)
-
-
 interpreter = None
 input_details = None
 output_details = None
 
-def init_interpreter(model_path):
+def init_interpreter():
     global interpreter
     global input_details
     global output_details
+
+    # Load the Tensorflow Lite model.
+    # If using Edge TPU, use special load_delegate argument
+    if use_TPU:
+        interpreter = Interpreter(model_path=PATH_TO_CKPT,
+                                experimental_delegates=[load_delegate('libedgetpu.so.1.0')], num_threads=4)
+        print(PATH_TO_CKPT)
+    else:
+        interpreter = Interpreter(model_path=PATH_TO_CKPT, num_threads=4)
 
     interpreter.allocate_tensors()
 
@@ -134,6 +133,8 @@ def main_part():
     lime_sizes = []
     found_list = []
     skip = 0
+
+    start_total_time = time.time()
 
     while(video.isOpened()):
 
