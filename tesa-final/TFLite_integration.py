@@ -101,7 +101,7 @@ start_total_time = time.time()
 
 def process_frame(frame):
 
-    global entry, lime_count, marker_count, lime_sizes, found_list, total_marker_width, pixel_per_metric, elapsed_time
+    global entry, lime_count, marker_count, lime_sizes, found_list, total_marker_width, pixel_per_metric
     interpreter = Interpreter(model_path=PATH_TO_CKPT, num_threads=4)
 
     interpreter.allocate_tensors()
@@ -131,6 +131,7 @@ def process_frame(frame):
         start_time = time.time()
         interpreter.set_tensor(input_details[0]['index'], input_data)
         interpreter.invoke()
+        elapsed_time.append(time.time() - start_time)
     except:
         print('Thread Error: interpreter not reference')
     # Retrieve detection results

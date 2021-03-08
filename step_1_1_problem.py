@@ -12,9 +12,9 @@ if __name__ == '__main__':
             clips.append(CLIP_PATH + f)
 
     # 2. preview and capture images
-    idx = 90
+    idx = 0
     running = True
-    IMG_PATH = './data/images'
+    IMG_PATH = './data/images/'
     for clip in clips:
         #2.1 import clip
         print("Reading " + clip)
@@ -25,7 +25,7 @@ if __name__ == '__main__':
         sqsize = max(width, height)
         print("FPS: " + str(fps))
         ret, frame = cap.read()
-        print("Image size: " + str(frame.shape))
+        #print("Image size: " + str(frame.shape))
 
         # 2.2 preview clip         
         while True:
